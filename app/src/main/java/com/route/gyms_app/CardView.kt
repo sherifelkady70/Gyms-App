@@ -1,8 +1,6 @@
 package com.route.gyms_app
 
-import android.graphics.drawable.Icon
 import androidx.compose.foundation.Image
-import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -14,10 +12,9 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Favorite
 import androidx.compose.material.icons.filled.FavoriteBorder
+import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material3.Card
-import androidx.compose.material3.CardColors
 import androidx.compose.material3.CardDefaults
-import androidx.compose.material3.Icon
 import androidx.compose.material3.LocalContentColor
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
@@ -31,13 +28,17 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.vector.ImageVector
-import androidx.compose.ui.res.painterResource
-import androidx.compose.ui.res.vectorResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 
 @Composable
 fun CardView(gym:GymModel,modifier: Modifier) {
+    var favoriteIconBoolean by remember { mutableStateOf(false) }
+    val icon = if (!favoriteIconBoolean) {
+        Icons.Filled.FavoriteBorder
+    } else {
+        Icons.Filled.Favorite
+    }
 
     Card(modifier = Modifier
         .fillMaxWidth()
@@ -49,17 +50,19 @@ fun CardView(gym:GymModel,modifier: Modifier) {
            modifier = Modifier
                .fillMaxWidth()
                .padding(8.dp)){
-           Box(
-               Modifier
-                   .weight(0.15f)
-                   .padding(15.dp)) {
-               Icon(painter = painterResource(
-                   id = R.drawable.baseline_location_on_24)
-                   , contentDescription =null,
-                   Modifier
-                       .width(65.dp)
-                       .height(30.dp))
-           }
+            Box(
+                Modifier
+                    .weight(0.15f)
+                    .padding(15.dp)
+            ) {
+                DefaultIcon(
+                    icon = Icons.Filled.LocationOn,
+                    contentDescription = "Location",
+                    modifier = Modifier
+                        .width(65.dp)
+                        .height(30.dp)
+                )
+            }
             Column (modifier = Modifier.weight(0.60f)){
                 Text(text = gym.title,Modifier.padding(2.dp),
                     style = MaterialTheme.typography.headlineSmall,
@@ -72,24 +75,31 @@ fun CardView(gym:GymModel,modifier: Modifier) {
                         color = Color.DarkGray)
                 }
             }
-            FavoriteIcon(Modifier.weight(0.20f))
+            DefaultIcon(
+                contentDescription = "Favorite Icon",
+                icon = icon,
+                modifier = Modifier
+                    .weight(0.20f)
+                    .padding(8.dp),
+                onClick = {
+                    favoriteIconBoolean = !favoriteIconBoolean
+                })
         }
     }
 }
 
 @Composable
-fun FavoriteIcon(modifier: Modifier) {
-    var favoriteIconBoolean by remember { mutableStateOf(false) }
-    val icon = if (!favoriteIconBoolean) {
-        Icons.Filled.FavoriteBorder
-    } else {
-        Icons.Filled.Favorite
-    }
+fun DefaultIcon(
+    icon: ImageVector,
+    modifier: Modifier,
+    onClick: () -> Unit={},
+    contentDescription: String,
+) {
     Image(imageVector = icon,
-        contentDescription = "Favorite Icon",
-        modifier.padding(8.dp)
+        contentDescription = contentDescription,
+        modifier
             .clickable {
-                favoriteIconBoolean = !favoriteIconBoolean
+                onClick()
             })
 }
 
