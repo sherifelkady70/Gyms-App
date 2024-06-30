@@ -38,9 +38,10 @@ import androidx.compose.ui.unit.dp
 
 @Composable
 fun CardView(gym:GymModel,modifier: Modifier) {
+
     Card(modifier = Modifier
         .fillMaxWidth()
-        .padding(8.dp)
+        .padding(4.dp)
         .height(100.dp),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
@@ -84,7 +85,6 @@ fun FavoriteIcon(modifier: Modifier) {
     } else {
         Icons.Filled.Favorite
     }
-
     Image(imageVector = icon,
         contentDescription = "Favorite Icon",
         modifier.padding(8.dp)
