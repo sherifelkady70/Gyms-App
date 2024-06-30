@@ -40,6 +40,7 @@ fun CardView(gym:GymModel,modifier: Modifier) {
         Icons.Filled.Favorite
     }
 
+
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(4.dp)
