@@ -63,18 +63,7 @@ fun CardView(gym:GymModel,modifier: Modifier) {
                         .height(30.dp)
                 )
             }
-            Column (modifier = Modifier.weight(0.60f)){
-                Text(text = gym.title,Modifier.padding(2.dp),
-                    style = MaterialTheme.typography.headlineSmall,
-                    color = Color.Blue)
-                CompositionLocalProvider (
-                    LocalContentColor provides LocalContentColor.current
-                ) {
-                    Text(text = gym.place,
-                        style = MaterialTheme.typography.bodySmall,
-                        color = Color.DarkGray)
-                }
-            }
+            ContentOfCard(modifier = Modifier.weight(0.60f), gym =gym)
             DefaultIcon(
                 contentDescription = "Favorite Icon",
                 icon = icon,
@@ -87,7 +76,21 @@ fun CardView(gym:GymModel,modifier: Modifier) {
         }
     }
 }
-
+@Composable
+fun ContentOfCard(modifier: Modifier,gym: GymModel){
+    Column (modifier = modifier){
+        Text(text = gym.title,Modifier.padding(2.dp),
+            style = MaterialTheme.typography.headlineSmall,
+            color = Color.Blue)
+        CompositionLocalProvider (
+            LocalContentColor provides LocalContentColor.current
+        ) {
+            Text(text = gym.place,
+                style = MaterialTheme.typography.bodySmall,
+                color = Color.DarkGray)
+        }
+    }
+}
 @Composable
 fun DefaultIcon(
     icon: ImageVector,
