@@ -40,7 +40,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 
 @Composable
 fun GymsScreen(){
-
     val gymsVM : GymsViewModel = viewModel()
     Box(modifier = Modifier
         .fillMaxSize()
