@@ -27,7 +27,6 @@ import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.remember
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
@@ -42,9 +41,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun GymsScreen(){
     val gymsVM : GymsViewModel = viewModel()
-    var state by rememberSaveable {
-        mutableStateOf(gymsVM.getListOfGyms())
-    }
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.Black)
@@ -58,13 +54,9 @@ fun GymsScreen(){
                 style = MaterialTheme.typography.bodyLarge,
                 fontSize = 24.sp)
             LazyColumn {
-                items(state) { gym ->
+                items(gymsVM.state.value) { gym ->
                     CardView(gym) { gymId ->
-                        val gyms = state.toMutableList()
-                        val itemIndex = gyms.indexOfFirst { it.id == gymId }
-                        gyms[itemIndex] =
-                            gyms[itemIndex].copy(isFavorite = !gyms[itemIndex].isFavorite)
-                        state = gyms
+                        gymsVM.triggerFavoriteState(gymId)
                     }
                 }
             }
