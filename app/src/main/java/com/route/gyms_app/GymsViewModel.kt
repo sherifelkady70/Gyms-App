@@ -1,9 +1,12 @@
 package com.route.gyms_app
 
 import androidx.compose.runtime.mutableStateOf
+import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 
-class GymsViewModel : ViewModel() {
+class GymsViewModel(
+    private val stateHandle:SavedStateHandle
+) : ViewModel() {
     var state = mutableStateOf(getListOfGyms())
     private fun getListOfGyms() : List<GymModel> {
         return Gyms.listOfGyms
