@@ -38,9 +38,6 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun GymsScreen(){
     val gymsVM : GymsViewModel = viewModel()
-    LaunchedEffect(key1 = "") {
-        gymsVM.getListOfGyms()
-    }
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.Black)

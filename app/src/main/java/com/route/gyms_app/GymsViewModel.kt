@@ -23,10 +23,11 @@ class GymsViewModel(
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(WebService::class.java)
+        getListOfGyms()
     }
 
     var state by mutableStateOf(emptyList<GymModel>())
-    fun getListOfGyms() {
+    private fun getListOfGyms() {
         gymsList = apiService.getGymsList()
          gymsList.enqueue(object : Callback<List<GymModel>>{
              override fun onResponse(p0: Call<List<GymModel>>, p1: Response<List<GymModel>>) {
