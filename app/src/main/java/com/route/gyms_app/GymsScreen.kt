@@ -41,6 +41,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 @Composable
 fun GymsScreen(){
     val gymsVM : GymsViewModel = viewModel()
+    gymsVM.getListOfGyms()
     Box(modifier = Modifier
         .fillMaxSize()
         .background(Color.Black)
@@ -54,7 +55,7 @@ fun GymsScreen(){
                 style = MaterialTheme.typography.bodyLarge,
                 fontSize = 24.sp)
             LazyColumn {
-                items(gymsVM.state.value) { gym ->
+                items(gymsVM.state) { gym ->
                     CardView(gym) { gymId ->
                         gymsVM.triggerFavoriteState(gymId)
                     }
