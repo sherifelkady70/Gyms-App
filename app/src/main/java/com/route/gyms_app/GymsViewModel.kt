@@ -16,7 +16,7 @@ class GymsViewModel(
     private val stateHandle:SavedStateHandle
 ) : ViewModel() {
     private var apiService : WebService
-    lateinit var gymsList : Call<List<GymModel>>
+    private lateinit var gymsList : Call<List<GymModel>>
     init {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://console.firebase.google.com/u/0/project/cairo-gyms-e57d4/database/cairo-gyms-e57d4-default-rtdb/data/~2F")
