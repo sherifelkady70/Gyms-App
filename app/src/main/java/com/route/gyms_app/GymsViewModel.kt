@@ -34,7 +34,6 @@ class GymsViewModel(
                      state = it.restoreGymsListData()
                  }
              }
-
              override fun onFailure(p0: Call<List<GymModel>>, p1: Throwable) {
                  p1.printStackTrace()
              }
