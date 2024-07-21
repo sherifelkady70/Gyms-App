@@ -1,8 +1,12 @@
 package com.route.gyms_app
 
+import com.google.gson.annotations.SerializedName
+
 data class GymModel(
     val id: Int,
-    val title: String,
+    @SerializedName("gym_name")
+    val name: String,
+    @SerializedName("gym_location")
     val place: String,
     var isFavorite: Boolean = false,
 )

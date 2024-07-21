@@ -6,6 +6,9 @@ import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import retrofit2.Call
+import retrofit2.Callback
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 
@@ -13,6 +16,7 @@ class GymsViewModel(
     private val stateHandle:SavedStateHandle
 ) : ViewModel() {
     private var apiService : WebService
+    lateinit var gymsList : Call<List<GymModel>>
     init {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://console.firebase.google.com/u/0/project/cairo-gyms-e57d4/database/cairo-gyms-e57d4-default-rtdb/data/~2F")
@@ -20,11 +24,22 @@ class GymsViewModel(
             .build()
         apiService = retrofit.create(WebService::class.java)
     }
+
     var state by mutableStateOf(emptyList<GymModel>())
-     fun getListOfGyms() {
-        apiService.getGymsList().execute().body()?.let { gymsList ->
-            state = gymsList.restoreGymsListData()
-        }
+    fun getListOfGyms() {
+        gymsList = apiService.getGymsList()
+         gymsList.enqueue(object : Callback<List<GymModel>>{
+             override fun onResponse(p0: Call<List<GymModel>>, p1: Response<List<GymModel>>) {
+                 p1.body()?.let {
+                     state = it.restoreGymsListData()
+                 }
+             }
+
+             override fun onFailure(p0: Call<List<GymModel>>, p1: Throwable) {
+                 p1.printStackTrace()
+             }
+
+         })
     }
 
     fun triggerFavoriteState(gymId:Int){

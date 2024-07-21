@@ -25,10 +25,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.getValue
-import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.saveable.rememberSaveable
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -111,7 +107,7 @@ fun CardView(gym:GymModel,onClick: (Int) -> Unit) {
 @Composable
 fun ContentOfCard(modifier: Modifier,gym: GymModel){
     Column (modifier = modifier){
-        Text(text = gym.title,Modifier.padding(2.dp),
+        Text(text = gym.name,Modifier.padding(2.dp),
             style = MaterialTheme.typography.headlineSmall,
             color = Color.Blue)
         CompositionLocalProvider (
