@@ -42,6 +42,10 @@ class GymsViewModel(
          })
     }
 
+    override fun onCleared() {
+        super.onCleared()
+        gymsList.cancel()
+    }
     fun triggerFavoriteState(gymId:Int){
         val gyms = state.toMutableList()
         val itemIndex = gyms.indexOfFirst { it.id==gymId }
