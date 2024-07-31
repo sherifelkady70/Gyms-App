@@ -42,7 +42,7 @@ class GymsViewModel(
     }
     private fun saveGymsListData(gym: GymModel){
         val stateHandleList = stateHandle.get<List<Int>>(FAV_KEY).orEmpty().toMutableStateList()
-        if(gym.isFavorite) stateHandleList.add(gym.id)
+        if (gym.isFavorite) stateHandleList.add(gym.id)
         else stateHandleList.remove(gym.id)
         stateHandle[FAV_KEY] = stateHandleList
     }
