@@ -71,7 +71,8 @@ fun CardView(gym:GymModel,onClick: (Int) -> Unit) {
     Card(modifier = Modifier
         .fillMaxWidth()
         .padding(4.dp)
-        .height(100.dp),
+        .height(100.dp)
+        .background(color = Color.White),
         elevation = CardDefaults.cardElevation(4.dp)
     ) {
         Row ( verticalAlignment = Alignment.CenterVertically,

@@ -50,14 +50,12 @@ class GymsViewModel(
         saveGymsListData(gyms[itemIndex])
         state = gyms
     }
-
     private fun saveGymsListData(gym:GymModel){
         val stateHandleList = stateHandle.get<List<Int>>(FAV_KEY).orEmpty().toMutableStateList()
         if(gym.isFavorite) stateHandleList.add(gym.id)
         else stateHandleList.remove(gym.id)
         stateHandle[FAV_KEY] = stateHandleList
     }
-
     private fun List<GymModel>.restoreGymsListData():List<GymModel>{
         val gyms = this
        stateHandle.get<List<Int>>(FAV_KEY)?.let { savedIds ->
