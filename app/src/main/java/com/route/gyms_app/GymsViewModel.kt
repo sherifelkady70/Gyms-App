@@ -8,7 +8,10 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.CoroutineExceptionHandler
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -20,6 +23,9 @@ class GymsViewModel(
 ) : ViewModel() {
     private var apiService : WebService
     private lateinit var gymsList : List<GymModel>
+    private val errorHandle = CoroutineExceptionHandler { _, throwable ->
+        throwable.printStackTrace()
+    }
     init {
         val retrofit = Retrofit.Builder()
             .baseUrl("https://cairo-gyms-e57d4-default-rtdb.firebaseio.com/")
@@ -30,21 +36,14 @@ class GymsViewModel(
     }
     var state by mutableStateOf(emptyList<GymModel>())
     private fun getListOfGyms() {
-        viewModelScope.launch {
-            try {
+        viewModelScope.launch(errorHandle) {
+            withContext(Dispatchers.IO) {
                 gymsList = apiService.getGymsList()
-                state = gymsList.restoreGymsListData()
-            }catch (e : Exception){
-                Log.d("API Exception","${e.printStackTrace()}")
             }
+            state = gymsList.restoreGymsListData()
         }
     }
-
-//    override fun onCleared() {
-//        super.onCleared()
-//        gymsList.cancel()
-//    }
-    fun triggerFavoriteState(gymId:Int){
+    fun  triggerFavoriteState(gymId:Int){
         val gyms = state.toMutableList()
         val itemIndex = gyms.indexOfFirst { it.id==gymId }
         gyms[itemIndex] = gyms[itemIndex].copy(isFavorite = !gyms[itemIndex].isFavorite)
