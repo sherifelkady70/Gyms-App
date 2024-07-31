@@ -1,8 +1,6 @@
 package com.route.gyms_app.gym_details
 
-import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
-import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.route.gyms_app.api.ApiManager
@@ -12,8 +10,6 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 
 class GymDetailViewModel : ViewModel() {
-
-
     init {
         getGym(6)
     }
