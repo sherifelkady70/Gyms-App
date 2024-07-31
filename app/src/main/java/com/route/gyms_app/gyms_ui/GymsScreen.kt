@@ -92,7 +92,7 @@ fun CardView(gym: GymModel, onClick: (Int) -> Unit) {
                         .height(30.dp)
                 )
             }
-            ContentOfCard(modifier = Modifier.weight(0.60f), gym =gym)
+            GymDetails(modifier = Modifier.weight(0.60f), gym =gym)
             DefaultIcon(
                 contentDescription = "Favorite Icon",
                 icon = icon,
@@ -106,8 +106,8 @@ fun CardView(gym: GymModel, onClick: (Int) -> Unit) {
     }
 }
 @Composable
-fun ContentOfCard(modifier: Modifier,gym: GymModel){
-    Column (modifier = modifier){
+fun GymDetails(modifier: Modifier, gym: GymModel, alignment: Alignment.Horizontal=Alignment.Start){
+    Column (modifier = modifier , horizontalAlignment = alignment){
         Text(text = gym.name,Modifier.padding(2.dp),
             style = MaterialTheme.typography.titleSmall,
             color = Color.Blue)
