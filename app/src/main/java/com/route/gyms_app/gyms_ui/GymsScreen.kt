@@ -1,4 +1,4 @@
-package com.route.gyms_app
+package com.route.gyms_app.gyms_ui
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
@@ -25,7 +25,6 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.CompositionLocalProvider
-import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
@@ -34,6 +33,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import com.route.gyms_app.models.GymModel
 
 @Composable
 fun GymsScreen(){
@@ -62,7 +62,7 @@ fun GymsScreen(){
 }
 
 @Composable
-fun CardView(gym:GymModel,onClick: (Int) -> Unit) {
+fun CardView(gym: GymModel, onClick: (Int) -> Unit) {
     val icon = if (!gym.isFavorite) {
         Icons.Filled.FavoriteBorder
     } else {
@@ -109,7 +109,7 @@ fun CardView(gym:GymModel,onClick: (Int) -> Unit) {
 fun ContentOfCard(modifier: Modifier,gym: GymModel){
     Column (modifier = modifier){
         Text(text = gym.name,Modifier.padding(2.dp),
-            style = MaterialTheme.typography.headlineSmall,
+            style = MaterialTheme.typography.titleSmall,
             color = Color.Blue)
         CompositionLocalProvider (
             LocalContentColor provides LocalContentColor.current

@@ -1,6 +1,5 @@
-package com.route.gyms_app
+package com.route.gyms_app.gyms_ui
 
-import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
@@ -8,37 +7,28 @@ import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.route.gyms_app.models.GymModel
+import com.route.gyms_app.api.ApiManager
 import kotlinx.coroutines.CoroutineExceptionHandler
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
-import retrofit2.Call
-import retrofit2.Callback
-import retrofit2.Response
-import retrofit2.Retrofit
-import retrofit2.converter.gson.GsonConverterFactory
 
 class GymsViewModel(
     private val stateHandle:SavedStateHandle
 ) : ViewModel() {
-    private var apiService : WebService
     private lateinit var gymsList : List<GymModel>
     private val errorHandle = CoroutineExceptionHandler { _, throwable ->
         throwable.printStackTrace()
     }
     init {
-        val retrofit = Retrofit.Builder()
-            .baseUrl("https://cairo-gyms-e57d4-default-rtdb.firebaseio.com/")
-            .addConverterFactory(GsonConverterFactory.create())
-            .build()
-        apiService = retrofit.create(WebService::class.java)
         getListOfGyms()
     }
     var state by mutableStateOf(emptyList<GymModel>())
     private fun getListOfGyms() {
         viewModelScope.launch(errorHandle) {
             withContext(Dispatchers.IO) {
-                gymsList = apiService.getGymsList()
+                gymsList = ApiManager.retrofit.getGymsList()
             }
             state = gymsList.restoreGymsListData()
         }
@@ -50,7 +40,7 @@ class GymsViewModel(
         saveGymsListData(gyms[itemIndex])
         state = gyms
     }
-    private fun saveGymsListData(gym:GymModel){
+    private fun saveGymsListData(gym: GymModel){
         val stateHandleList = stateHandle.get<List<Int>>(FAV_KEY).orEmpty().toMutableStateList()
         if(gym.isFavorite) stateHandleList.add(gym.id)
         else stateHandleList.remove(gym.id)

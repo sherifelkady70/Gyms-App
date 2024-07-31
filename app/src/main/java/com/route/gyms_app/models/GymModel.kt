@@ -1,4 +1,4 @@
-package com.route.gyms_app
+package com.route.gyms_app.models
 
 import com.google.gson.annotations.SerializedName
 

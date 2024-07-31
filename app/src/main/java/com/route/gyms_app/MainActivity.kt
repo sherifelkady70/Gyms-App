@@ -8,6 +8,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
+import com.route.gyms_app.gyms_ui.GymsScreen
 import com.route.gyms_app.ui.theme.Gyms_AppTheme
 
 class MainActivity : ComponentActivity() {
