@@ -1,11 +1,14 @@
 package com.route.gyms_app
 
+import android.util.Log
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
 import androidx.compose.runtime.toMutableStateList
 import androidx.lifecycle.SavedStateHandle
 import androidx.lifecycle.ViewModel
+import androidx.lifecycle.viewModelScope
+import kotlinx.coroutines.launch
 import retrofit2.Call
 import retrofit2.Callback
 import retrofit2.Response
@@ -16,36 +19,31 @@ class GymsViewModel(
     private val stateHandle:SavedStateHandle
 ) : ViewModel() {
     private var apiService : WebService
-    private lateinit var gymsList : Call<List<GymModel>>
+    private lateinit var gymsList : List<GymModel>
     init {
         val retrofit = Retrofit.Builder()
-            .baseUrl("https://console.firebase.google.com/u/0/project/cairo-gyms-e57d4/database/cairo-gyms-e57d4-default-rtdb/data/~2F")
+            .baseUrl("https://cairo-gyms-e57d4-default-rtdb.firebaseio.com/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
         apiService = retrofit.create(WebService::class.java)
         getListOfGyms()
     }
-
     var state by mutableStateOf(emptyList<GymModel>())
     private fun getListOfGyms() {
-        gymsList = apiService.getGymsList()
-         gymsList.enqueue(object : Callback<List<GymModel>>{
-             override fun onResponse(p0: Call<List<GymModel>>, p1: Response<List<GymModel>>) {
-                 p1.body()?.let {
-                     state = it.restoreGymsListData()
-                 }
-             }
-             override fun onFailure(p0: Call<List<GymModel>>, p1: Throwable) {
-                 p1.printStackTrace()
-             }
-
-         })
+        viewModelScope.launch {
+            try {
+                gymsList = apiService.getGymsList()
+                state = gymsList.restoreGymsListData()
+            }catch (e : Exception){
+                Log.d("API Exception","${e.printStackTrace()}")
+            }
+        }
     }
 
-    override fun onCleared() {
-        super.onCleared()
-        gymsList.cancel()
-    }
+//    override fun onCleared() {
+//        super.onCleared()
+//        gymsList.cancel()
+//    }
     fun triggerFavoriteState(gymId:Int){
         val gyms = state.toMutableList()
         val itemIndex = gyms.indexOfFirst { it.id==gymId }

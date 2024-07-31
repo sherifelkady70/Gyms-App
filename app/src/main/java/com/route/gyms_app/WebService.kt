@@ -5,6 +5,6 @@ import retrofit2.http.GET
 
 interface WebService {
     @GET("gyms.json")
-    fun getGymsList() : Call<List<GymModel>>
+    suspend fun getGymsList() : List<GymModel>
 
 }

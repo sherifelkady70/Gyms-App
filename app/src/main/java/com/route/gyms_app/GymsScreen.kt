@@ -40,7 +40,7 @@ fun GymsScreen(){
     val gymsVM : GymsViewModel = viewModel()
     Box(modifier = Modifier
         .fillMaxSize()
-        .background(Color.Black)
+        .background(Color.White)
         .padding(6.dp)){
         Column(
             horizontalAlignment = Alignment.CenterHorizontally,
